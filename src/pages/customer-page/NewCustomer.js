@@ -1,56 +1,55 @@
 // import './new.scss';
-import Sidebar from '../../components/sidebar/Sidebar';
-import Navbar from '../../components/navbar/Navbar';
+import Sidebar from "../../components/sidebar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
 // import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
-import { useState } from 'react';
+import { useState } from "react";
 
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const New = () => {
-  const {token}=useSelector(state=>state.auth)
+  const { token } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const axiosInstance = axios.create({ baseURL: "http://89.116.230.202" });
   const [user, setUser] = useState({
-    name: '',
-    email: '',
-    
-    status: 'Pending',
-    phone: '',
-    country: 'India',
-    address: '',
+    name: "",
+    email: "",
+
+    status: "Pending",
+    phone: "",
+    country: "India",
+    address: "",
   });
 
   const countryOptions = [
-
     {
-      label: 'India',
-      value: 'India',
+      label: "India",
+      value: "India",
     },
     {
-      label: 'USA',
-      value: 'USA',
+      label: "USA",
+      value: "USA",
     },
     {
-      label: 'UK',
-      value: 'UK',
+      label: "UK",
+      value: "UK",
     },
     {
-      label: 'Dubai',
-      value: 'Dubai',
+      label: "Dubai",
+      value: "Dubai",
     },
     {
-      label: 'Germany',
-      value: 'Germany',
+      label: "Germany",
+      value: "Germany",
     },
   ];
 
   const roleOptions = [
-
-    { value: 'Pending' },
-    { value: 'Success' },
-    { value: 'Rejected' },
+    { value: "Pending" },
+    { value: "Success" },
+    { value: "Rejected" },
   ];
 
   const handleChange = (e) => {
@@ -59,13 +58,17 @@ const New = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
-    axios
-      .post('http://localhost:5000/customer', { ...user },{
-        headers:{
-          'authorization':`Bearer ${token}`
+    axiosInstance
+      .post(
+        "http://localhost:5000/customer",
+        { ...user },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         }
-      })
-      .then((res) => navigate('/customers'))
+      )
+      .then((res) => navigate("/customers"))
       .catch((err) => {
         console.log(err);
         console.log(err.response.data.message.errors);
@@ -106,7 +109,7 @@ const New = () => {
                   value={user.email}
                 />
               </div>
-           
+
               <div className="formInput">
                 <label>Country</label>
                 <select
@@ -158,7 +161,7 @@ const New = () => {
                 />
               </div> */}
 
-           <div className="formInput">
+              <div className="formInput">
                 <label htmlFor="role">Status</label>
                 <select
                   id="role"
@@ -173,7 +176,7 @@ const New = () => {
                     </option>
                   ))}
                 </select>
-              </div> 
+              </div>
 
               {/* <div className="formInput">
                 <label>Light Yagami</label>

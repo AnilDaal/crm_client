@@ -13,6 +13,7 @@ const New = () => {
   const navigate = useNavigate();
   const { employeeId } = useParams();
   console.log(employeeId);
+  const axiosInstance = axios.create({baseURL:"http://89.116.230.202"})
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -24,7 +25,7 @@ const New = () => {
   });
 
   const loadUserData = useCallback(() => {
-    axios
+    axiosInstance
       .get(`http://localhost:5000/employee/${employeeId}`, {
         headers: {
           authorization: `Bearer ${token}`,
@@ -44,7 +45,7 @@ const New = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(user);
-    axios
+    axiosInstance
       .put(
         `http://localhost:5000/employee/${employeeId}`,
         { ...user },

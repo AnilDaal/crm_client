@@ -12,6 +12,7 @@ const New = () => {
   const { token } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const axiosInstance = axios.create({baseURL:"http://89.116.230.202"})
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -57,7 +58,7 @@ const New = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
-    axios
+    axiosInstance
       .post(
         'http://localhost:5000/employee',
         { ...user },

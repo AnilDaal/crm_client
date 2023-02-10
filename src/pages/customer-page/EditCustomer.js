@@ -1,67 +1,60 @@
 // import './new.scss';
-import Sidebar from '../../components/sidebar/Sidebar';
-import Navbar from '../../components/navbar/Navbar';
+import Sidebar from "../../components/sidebar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
 // import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
-import { useState,useEffect,useCallback } from 'react';
-
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const EditCustomer = () => {
-  const {customerId}=useParams()
-  const {token}=useSelector(state=>state.auth)
+  const { customerId } = useParams();
+  const { token } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const axiosInstance = axios.create({ baseURL: "http://89.116.230.202" });
   const [user, setUser] = useState({
-    name: '',
-    email: '',
-    
-    status: 'Pending',
-    phone: '',
-    country: 'India',
-    address: '',
+    name: "",
+    email: "",
+
+    status: "Pending",
+    phone: "",
+    country: "India",
+    address: "",
   });
 
   const countryOptions = [
-
     {
-      label: 'India',
-      value: 'India',
+      label: "India",
+      value: "India",
     },
     {
-      label: 'USA',
-      value: 'USA',
+      label: "USA",
+      value: "USA",
     },
     {
-      label: 'UK',
-      value: 'UK',
+      label: "UK",
+      value: "UK",
     },
     {
-      label: 'Dubai',
-      value: 'Dubai',
+      label: "Dubai",
+      value: "Dubai",
     },
     {
-      label: 'Germany',
-      value: 'Germany',
+      label: "Germany",
+      value: "Germany",
     },
   ];
 
   const roleOptions = [
-
-    { value: 'Pending' },
-    { value: 'Success' },
-    { value: 'Rejected' },
+    { value: "Pending" },
+    { value: "Success" },
+    { value: "Rejected" },
   ];
 
-
-
-
   const loadUserData = useCallback(() => {
-    axios
-      .get(`http://localhost:5000/customer/${customerId}`, {
-       
-      })
+    axiosInstance
+      .get(`http://localhost:5000/customer/${customerId}`, {})
       .then(({ data }) => {
         console.log(data);
         setUser(data);
@@ -73,20 +66,22 @@ const EditCustomer = () => {
     loadUserData();
   }, [loadUserData]);
 
-
-
   const handleChange = (e) => {
     setUser((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
-    axios
-      .put(`http://localhost:5000/customer/${customerId}`, { ...user },{
-        headers:{
-          'authorization':`Bearer ${token}`
+    axiosInstance
+      .put(
+        `http://localhost:5000/customer/${customerId}`,
+        { ...user },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         }
-      })
+      )
       .then((res) => navigate(`/customers/${customerId}`))
       .catch((err) => {
         console.log(err);
@@ -128,7 +123,7 @@ const EditCustomer = () => {
                   value={user.email}
                 />
               </div>
-           
+
               <div className="formInput">
                 <label>Country</label>
                 <select
@@ -180,7 +175,7 @@ const EditCustomer = () => {
                 />
               </div> */}
 
-           <div className="formInput">
+              <div className="formInput">
                 <label htmlFor="role">Status</label>
                 <select
                   id="role"
@@ -195,7 +190,7 @@ const EditCustomer = () => {
                     </option>
                   ))}
                 </select>
-              </div> 
+              </div>
 
               {/* <div className="formInput">
                 <label>Light Yagami</label>
@@ -220,4 +215,4 @@ const EditCustomer = () => {
   );
 };
 
-export default EditCustomer
+export default EditCustomer;

@@ -32,13 +32,14 @@ const taskObj2 = {
 const Single = () => {
   const { token } = useSelector((state) => state.auth);
   const [singleEmployee, setSingleEmployee] = useState({});
+  const axiosInstance = axios.create({baseURL:"http://89.116.230.202"})
   const [tasks, setTasks] = useState([]);
   const { employeeId } = useParams();
   console.log(token);
   useEffect(() => {
     const fetchSingleEmployee = async () => {
       try {
-        const { data } = await axios.get(
+        const { data } = await axiosInstance.get(
           `http://localhost:5000/employee/${employeeId}`,
           {
             headers: {
@@ -57,7 +58,7 @@ const Single = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const { data } = await axios.get(
+        const { data } = await axiosInstance.get(
           `http://localhost:5000/employee/${employeeId}/getTask`,{headers:{
             'authorization':`Bearer ${token}`
           }}

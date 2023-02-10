@@ -1,26 +1,25 @@
-import './add-new-task.scss';
-import Sidebar from '../../components/sidebar/Sidebar';
-import Navbar from '../../components/navbar/Navbar';
+import "./add-new-task.scss";
+import Sidebar from "../../components/sidebar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
 // import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
-import { useState } from 'react';
+import { useState } from "react";
 
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
-
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const New = () => {
-  const {token}=useSelector(state=>state.auth)
+  const { token } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
+  const axiosInstance = axios.create({ baseURL: "http://89.116.230.202" });
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    title: '',
-    description: '',
-    assignedDate: '',
-    deadline: ''
+    title: "",
+    description: "",
+    assignedDate: "",
+    deadline: "",
   });
-  const { employeeId } = useParams()
+  const { employeeId } = useParams();
 
   const handleChange = (e) => {
     setUser((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -28,12 +27,16 @@ const New = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
-    axios
-      .post(`http://localhost:5000/employee/${employeeId}/addTask`, { ...user, assigndate: user.assignedDate },{
-        headers:{
-          'authorization':`Bearer ${token}`
+    axiosInstance
+      .post(
+        `http://localhost:5000/employee/${employeeId}/addTask`,
+        { ...user, assigndate: user.assignedDate },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         }
-      })
+      )
       .then((res) => navigate(`/employees/${employeeId}`))
       .catch((err) => {
         console.log(err);
@@ -70,14 +73,13 @@ const New = () => {
                   onChange={handleChange}
                   required
                   value={user.description}
-                >
-                </textarea>
+                ></textarea>
               </div>
               <div className="formInput">
                 <label>Assigned Date</label>
                 <input
                   type="date"
-                  name='assignedDate'
+                  name="assignedDate"
                   onChange={handleChange}
                   required
                   value={user.assignedDate}
@@ -87,7 +89,7 @@ const New = () => {
                 <label>Deadline</label>
                 <input
                   type="date"
-                  name='deadline'
+                  name="deadline"
                   onChange={handleChange}
                   required
                   value={user.deadline}

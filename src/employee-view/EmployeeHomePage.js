@@ -1,43 +1,44 @@
-import Sidebar from '../../components/sidebar/Sidebar';
-import Navbar from '../../components/navbar/Navbar';
-import Chart from '../../extra/chart/Chart';
-import { Link, useParams } from 'react-router-dom';
-import './single.scss';
+import Sidebar from "../../components/sidebar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
+import Chart from "../../extra/chart/Chart";
+import { Link, useParams } from "react-router-dom";
+import "./single.scss";
 
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import List from '../../components/table/Table';
-import Task from '../../components/task-management/Task';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import List from "../../components/table/Table";
+import Task from "../../components/task-management/Task";
+import { useSelector } from "react-redux";
 
 const taskObj = {
-  title: 'CRM Project',
-  description: 'design a build a crm system...',
-  assignedDate: '16/01/2023',
-  deadline: '12/02/2023',
+  title: "CRM Project",
+  description: "design a build a crm system...",
+  assignedDate: "16/01/2023",
+  deadline: "12/02/2023",
 };
 const taskObj1 = {
-  title: 'SEO',
-  description: 'design a build a search engine optimized website...',
-  assignedDate: '16/01/2023',
-  deadline: '12/02/2023',
+  title: "SEO",
+  description: "design a build a search engine optimized website...",
+  assignedDate: "16/01/2023",
+  deadline: "12/02/2023",
 };
 const taskObj2 = {
-  title: 'Furniture',
-  description: 'design a build a furniture website...',
-  assignedDate: '16/01/2023',
-  deadline: '12/02/2023',
+  title: "Furniture",
+  description: "design a build a furniture website...",
+  assignedDate: "16/01/2023",
+  deadline: "12/02/2023",
 };
 
 const Single = () => {
   const { token } = useSelector((state) => state.auth);
   const [singleEmployee, setSingleEmployee] = useState({});
   const { employeeId } = useParams();
+  const axiosInstance = axios.create({ baseURL: "http://89.116.230.202" });
   console.log(token);
   useEffect(() => {
     const fetchSingleEmployee = async () => {
       try {
-        const { data } = await axios.get(
+        const { data } = await axiosInstance.get(
           `http://localhost:5000/employee/${employeeId}`,
           {
             headers: {
